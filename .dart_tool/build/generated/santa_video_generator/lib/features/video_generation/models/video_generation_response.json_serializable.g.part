@@ -1,0 +1,15 @@
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+_$VideoGenerationResponseImpl _$$VideoGenerationResponseImplFromJson(
+        Map<String, dynamic> json) =>
+    _$VideoGenerationResponseImpl(
+      videoUrl: json['videoUrl'] as String,
+    );
+
+Map<String, dynamic> _$$VideoGenerationResponseImplToJson(
+        _$VideoGenerationResponseImpl instance) =>
+    <String, dynamic>{
+      'videoUrl': instance.videoUrl,
+    };
