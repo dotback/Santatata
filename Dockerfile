@@ -11,7 +11,6 @@ RUN fvm install
 # Configure Flutter
 RUN fvm flutter config --no-analytics
 RUN fvm flutter config --enable-web
-RUN fvm flutter doctor --suppress-analytics
 
 # Build the app
 COPY . .
