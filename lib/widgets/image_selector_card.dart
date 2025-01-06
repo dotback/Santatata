@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:image_picker_web/image_picker_web.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:santa_video_generator/models/upload_image.dart';
 
 class ImageSelectorCard extends StatelessWidget {
@@ -25,12 +25,24 @@ class ImageSelectorCard extends StatelessWidget {
   });
 
   Future<void> _pickImage() async {
-    final mediaInfo = await ImagePickerWeb.getImageInfo;
-    if (mediaInfo != null && mediaInfo.data != null) {
-      onImagePicked(UploadImage(
-        fileName: mediaInfo.fileName ?? 'uploaded_image',
-        data: mediaInfo.data!,
-      ));
+    try {
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.image,
+        allowMultiple: false,
+        withData: true, // bytes を取得するために必要
+      );
+
+      if (result != null && result.files.isNotEmpty) {
+        final file = result.files.first;
+        if (file.bytes != null) {
+          onImagePicked(UploadImage(
+            fileName: file.name,
+            data: file.bytes!,
+          ));
+        }
+      }
+    } catch (e) {
+      debugPrint('画像選択エラー: $e');
     }
   }
 

@@ -35,17 +35,22 @@
 </head>
 <body>
   <script>
-    window.addEventListener('load', async function() {
+    window.addEventListener('load', async function () {
       var loading = document.querySelector('#loading');
-      _flutter.loader.loadEntrypoint({
-        serviceWorker: {
-          serviceWorkerVersion: serviceWorkerVersion,
-        },
-        onEntrypointLoaded: async function(engineInitializer) {
-          let appRunner = await engineInitializer.initializeEngine();
-          await appRunner.runApp();
-        }
-      });
+      try {
+        await _flutter.loader.loadEntrypoint({
+          serviceWorker: {
+            serviceWorkerVersion: serviceWorkerVersion,
+          },
+          onEntrypointLoaded: async function(engineInitializer) {
+            let appRunner = await engineInitializer.initializeEngine();
+            await appRunner.runApp();
+          },
+          useWasm: true,
+        });
+      } catch (e) {
+        console.error(e);
+      }
     });
   </script>
   <div id="loading">
