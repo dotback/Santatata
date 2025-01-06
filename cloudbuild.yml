@@ -27,7 +27,7 @@
 steps:
   - name: 'gcr.io/kaniko-project/executor:latest'
     args:
-      - --destination=pkg.dev/$PROJECT_ID/santa-video-generator/app
+      - --destination=us-central1-docker.pkg.dev/$PROJECT_ID/santa-video-generator/app:$COMMIT_SHA
       - --dockerfile=Dockerfile
       - --cache=true
 
@@ -35,10 +35,11 @@ steps:
     args:
       - 'run'
       - 'deploy'
-      - 'flutter-web'
-      - '--image=pkg.dev/$PROJECT_ID/santa-video-generator/app'
+      - 'santa-video-generator'
+      - '--image=us-central1-docker.pkg.dev/$PROJECT_ID/santa-video-generator/app:$COMMIT_SHA'
       - '--platform=managed'
       - '--region=us-central1'
       - '--allow-unauthenticated'
       - '--port=8080'
+
 timeout: '300s'
