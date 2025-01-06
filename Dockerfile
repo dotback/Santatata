@@ -1,23 +1,22 @@
-# ベースイメージを指定
-FROM node:14
+FROM dart:3.6.0 AS build
 
-# 作業ディレクトリを作成
-WORKDIR /usr/src/app
+WORKDIR /app
+COPY .fvmrc ./
 
-# パッケージファイルをコピー
-COPY package*.json ./
+# Install Flutter
+RUN dart pub global activate fvm
+ENV PATH="/root/.pub-cache/bin:${PATH}"
+RUN fvm install
 
-# 依存関係をインストール
-RUN npm install
+# Configure Flutter
+RUN fvm flutter config --no-analytics
+RUN fvm flutter config --enable-web
+RUN fvm flutter doctor --suppress-analytics
 
-# アプリケーションのソースコードをコピー
+# Build the app
 COPY . .
+RUN fvm flutter pub get && \
+  fvm flutter build web --wasm
 
-# アプリケーションをビルド（必要に応じて）
-# RUN npm run build
-
-# アプリケーションを起動
-CMD ["npm", "start"]
-
-# Cloud Runのポートを指定
-EXPOSE 8080
+ENV PORT=80
+CMD ["fvm", "flutter", "run", "--no-build", "--release", "-d", "web-server", "--web-port", "8080", "--web-hostname", "0.0.0.0"]
