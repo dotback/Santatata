@@ -8,5 +8,4 @@ RUN flutter config --no-analytics && \
   flutter pub get && \
   flutter build web --wasm
 
-ENV PORT=80
 CMD ["flutter", "run", "--no-build", "--release", "-d", "web-server", "--web-port", "8080", "--web-hostname", "0.0.0.0"]

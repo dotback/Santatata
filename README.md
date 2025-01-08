@@ -6,9 +6,6 @@ $ fvm flutter run -d chrome
 
 # Launch for production
 $ fvm flutter run -d chrome --dart-define=PRODUCTION=true
-
-# Build
-$ fvm flutter build web --wasm
 ```
 
 依存関係のインストール
@@ -28,4 +25,8 @@ $ fvm flutter pub run build_runner build
 ```
 $ docker build -t santa-video-generator .
 $ docker run -p 8080:8080 // localhost:8080 でアクセス可能
+# or
+
+# Build
+$ fvm flutter build web --wasm
 ```
